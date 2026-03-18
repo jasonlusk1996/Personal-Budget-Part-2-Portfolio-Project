@@ -6,3 +6,7 @@ app.use(express.json());
 function getEnvelopeById(id) {
     return envelopes.find(envelope => envelope.id === id)|| null;
 }
+
+module.exports = {
+    getEnvelopeById
+};
