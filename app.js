@@ -3,11 +3,11 @@ const app = express();
 const envelopes = require('./envelopes.js');
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
+app.get('/envelopes', (req, res) => {
+    res.send(envelopes);
 });
 
-app.post('/envelopes/submit', (req, res) => {
+app.post('/envelopes', (req, res) => {
     const { name, budget } = req.body || {};
     if(!name || !budget) {
         return res.status(400).send('Name and budget are required');
