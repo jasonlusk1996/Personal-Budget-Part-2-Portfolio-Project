@@ -26,5 +26,15 @@ app.get('/envelopes/:id', (req, res) => {
     res.send(envelope);
 });
 
+app.delete('/envelopes/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = helper.getIndexById(id);
+    if (index === -1) {
+        return res.status(404).send('Envelope not found');
+    }
+    envelopes.splice(index, 1);
+    res.status(204).send('Envelope deleted successfully');
+});
+
 
 module.exports = app;
