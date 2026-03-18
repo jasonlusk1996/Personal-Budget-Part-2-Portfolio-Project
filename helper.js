@@ -7,6 +7,11 @@ function getEnvelopeById(id) {
     return envelopes.find(envelope => envelope.id === id)|| null;
 }
 
+function getIndexById(id) {
+    return envelopes.findIndex(envelope => envelope.id === id)|| -1;
+}
+
 module.exports = {
-    getEnvelopeById
+    getEnvelopeById,
+    getIndexById
 };
