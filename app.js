@@ -3,13 +3,17 @@ const app = express();
 const envelopes = require('./envelopes.js');
 const helper = require('./helper.js');
 app.use(express.json());
+
+//create a router for envelope-related routes and mount it on the /envelopes path
 appRouter = express.Router();
 app.use('/envelopes', appRouter);
 
+//gets all envelopes
 app.get('/envelopes', (req, res) => {
     res.send(envelopes);
 });
 
+//adds new envelope to the envelopes array with a unique id, name, and budget
 appRouter.post('/', (req, res) => {
     const { name, budget } = req.body || {};
     if(!name || !budget) {
@@ -19,6 +23,7 @@ appRouter.post('/', (req, res) => {
     res.status(201).send('Envelope created successfully');
 });
 
+//updates all envelopes to have the same budget amount
 appRouter.put('/even', (req, res) => {
     const { amount } = req.body || {};
     if (amount <= 0) {
@@ -28,6 +33,7 @@ appRouter.put('/even', (req, res) => {
     res.send('All budgets updated successfully');
 });
 
+//transfers budget from one envelope to another based on the provided from and to ids and amount in the request body
 appRouter.post('/transfer/:from/:to', (req, res) => {
     const fromId= parseInt(req.params.from);
     const toId = parseInt(req.params.to);
@@ -45,6 +51,7 @@ appRouter.post('/transfer/:from/:to', (req, res) => {
     res.send('Transfer successful');
 });
 
+//gets a specific envelope by id from the envelopes array and returns it in the response
 appRouter.get('/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const envelope = helper.getEnvelopeById(id);
@@ -54,6 +61,7 @@ appRouter.get('/:id', (req, res) => {
     res.send(envelope);
 });
 
+//deletes an envelope from the envelopes array based on the provided id in the request parameters
 appRouter.delete('/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const index = helper.getIndexById(id);
@@ -64,6 +72,7 @@ appRouter.delete('/:id', (req, res) => {
     res.status(204).send('Envelope deleted successfully');
 });
 
+//updates the budget of a specific envelope based on the provided id in the request parameters and amount in the request body
 appRouter.put('/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const { amount } = req.body || {};
@@ -78,6 +87,7 @@ appRouter.put('/:id', (req, res) => {
     res.send('Budget updated successfully');
 });
 
+//withdraws a specified amount from a specific envelope based on the provided id in the request parameters and amount in the request body
 appRouter.post('/:id/withdraw', (req, res) => {
     const id = parseInt(req.params.id);
     const { amount } = req.body || {};
