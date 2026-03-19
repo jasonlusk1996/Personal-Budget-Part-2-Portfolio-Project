@@ -83,4 +83,13 @@ app.put('/envelopes/:id', (req, res) => {
     res.send('Budget updated successfully');
 });
 
+app.put('/envelopes/even', (req, res) => {
+    const { amount } = req.body || {};
+    if (amount <= 0) {
+        return res.status(400).send('Invalid amount');
+    }
+    helper.evenBudget(amount);
+    res.send('All budgets updated successfully');
+});
+
 module.exports = app;
