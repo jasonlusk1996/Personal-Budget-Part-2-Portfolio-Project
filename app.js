@@ -52,4 +52,21 @@ app.post('/envelopes/:id/withdraw', (req, res) => {
     res.send('Withdrawal successful');
 });
 
+app.post('/envelopes/transfer/:from/:to', (req, res) => {
+    const fromId= parseInt(req.params.from);
+    const toId = parseInt(req.params.to);
+    const { amount } = req.body || {};
+
+    if (!helper.getEnvelopeById(fromId) || !helper.getEnvelopeById(toId)) {
+        return res.status(404).send('One or both envelopes not found');
+    }
+
+    if (amount <= 0) {
+        return res.status(400).send('Invalid amount');
+    }
+
+    helper.swapBudget(fromId, toId, amount);
+    res.send('Transfer successful');
+});
+
 module.exports = app;
