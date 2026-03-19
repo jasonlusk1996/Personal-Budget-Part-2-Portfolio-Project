@@ -18,9 +18,19 @@ function updateBudget(id, amount) {
     }
 }
 
+function swapBudget(id1, id2) {
+    const envelope1 = getEnvelopeById(id1);
+    const envelope2 = getEnvelopeById(id2);
+    if (envelope1 && envelope2) {
+        const temp = envelope1.budget;
+        envelope1.budget = envelope2.budget;
+        envelope2.budget = temp;
+    }
+}
 
 module.exports = {
     getEnvelopeById,
     getIndexById,
-    updateBudget
+    updateBudget,
+    swapBudget
 };
