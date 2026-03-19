@@ -18,13 +18,12 @@ function updateBudget(id, amount) {
     }
 }
 
-function swapBudget(id1, id2) {
+function swapBudget(id1, id2, amount) {
     const envelope1 = getEnvelopeById(id1);
     const envelope2 = getEnvelopeById(id2);
     if (envelope1 && envelope2) {
-        const temp = envelope1.budget;
-        envelope1.budget = envelope2.budget;
-        envelope2.budget = temp;
+        envelope1.budget -= amount;
+        envelope2.budget += amount;
     }
 }
 
