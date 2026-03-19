@@ -34,11 +34,18 @@ function changeBudget(id, amount) {
     }
 }
 
+function evenBudget(amount) {
+    for (let envelope of envelopes) {
+        envelope.budget = Number(amount);
+    }
+}
+
 
 module.exports = {
     getEnvelopeById,
     getIndexById,
     updateBudget,
     swapBudget,
-    changeBudget
+    changeBudget,
+    evenBudget
 };
