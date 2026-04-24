@@ -78,14 +78,17 @@ appRouter.get('/:id', async (req, res) => {
 });
 
 //deletes an envelope from the envelopes array based on the provided id in the request parameters
-appRouter.delete('/:id', (req, res) => {
+appRouter.delete('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
-    const index = helper.getIndexById(id);
-    if (index === -1) {
-        return res.status(404).send('Envelope not found');
+    try{
+      const {rows}= await pool.query("DELETE FROM envelopes WHERE id = $1 RETURNING *",[id]);
+      if (rows.length===0) {
+        return res.status(404).send('Envelope not found');}
+      res.status(204).send();}
+    catch(err){
+        console.log(err);
+        res.status(500).send("Database connection error");
     }
-    envelopes.splice(index, 1);
-    res.status(204).send('Envelope deleted successfully');
 });
 
 //updates the budget of a specific envelope based on the provided id in the request parameters and amount in the request body
