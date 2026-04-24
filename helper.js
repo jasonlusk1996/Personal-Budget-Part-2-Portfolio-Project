@@ -1,6 +1,5 @@
 const express= require('express');
 const app = express();
-const envelopes = require('./envelopes.js');
 app.use(express.json());
 
 //returns an envelope object from the envelopes array that matches the provided id, or null if no match is found

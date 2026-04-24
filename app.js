@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const envelopes = require('./envelopes.js');
+const pool = require("./db.js");
 const helper = require('./helper.js');
 app.use(express.json());
 
@@ -9,8 +9,14 @@ appRouter = express.Router();
 app.use('/envelopes', appRouter);
 
 //gets all envelopes
-app.get('/envelopes', (req, res) => {
-    res.send(envelopes);
+app.get('/envelopes', async (req, res) => {
+    try{
+        const result = await pool.query("SELECT * FROM envelopes");
+        res.status(200).json(result.rows);
+        }catch(err){
+            console.log(err);
+            res.status(500).send('Database connection error');
+        }
 });
 
 //adds new envelope to the envelopes array with a unique id, name, and budget
