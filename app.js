@@ -20,13 +20,18 @@ app.get('/envelopes', async (req, res) => {
 });
 
 //adds new envelope to the envelopes array with a unique id, name, and budget
-appRouter.post('/', (req, res) => {
+appRouter.post('/', async (req, res) => {
     const { name, budget } = req.body || {};
     if(!name || !budget) {
         return res.status(400).send('Name and budget are required');
     }
-    envelopes.push({ id: envelopes.length + 1, name, budget, spent: 0 });
-    res.status(201).send('Envelope created successfully');
+    try{
+        const { rows } = await pool.query("INSERT INTO envelopes (name, budget) VALUES ($1, $2)",[name, budget]);
+        res.status(201).send('Envelope created successfully');
+    }catch(err){
+            console.log(err);
+            res.status(500).send('Database connection error');
+        }
 });
 
 //updates all envelopes to have the same budget amount
