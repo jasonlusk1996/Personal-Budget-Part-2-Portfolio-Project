@@ -58,13 +58,18 @@ appRouter.post('/transfer/:from/:to', (req, res) => {
 });
 
 //gets a specific envelope by id from the envelopes array and returns it in the response
-appRouter.get('/:id', (req, res) => {
+appRouter.get('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
-    const envelope = helper.getEnvelopeById(id);
-    if (!envelope) {
-        return res.status(404).send('Envelope not found');
+    try{
+        const {rows} = await pool.query("SELECT * FROM envelopes WHERE id = $1", [id]);
+        if(rows.length===0){
+            res.status(404).send("Envelope not found");
+        }
+        res.status(200).json(rows[0]);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Database connection error");
     }
-    res.send(envelope);
 });
 
 //deletes an envelope from the envelopes array based on the provided id in the request parameters
