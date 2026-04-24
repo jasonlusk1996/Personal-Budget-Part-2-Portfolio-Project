@@ -22,4 +22,4 @@ const dbConnect = async ()=>{
 
 dbConnect();
 
-module.exports= dbConnect;
+module.exports= pool;
