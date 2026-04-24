@@ -1,10 +1,12 @@
 const express= require('express');
 const app = express();
 app.use(express.json());
+const pool = require('./db.js');
 
 //returns an envelope object from the envelopes array that matches the provided id, or null if no match is found
-function getEnvelopeById(id) {
-    return envelopes.find(envelope => envelope.id === id)|| null;
+async function getEnvelopeById(id) {
+    const {rows} = await pool.query("SELECT * FROM envelopes WHERE id=$1",[id]);
+    return rows[0]|| null;
 }
 
 //returns the index of an envelope in the envelopes array that matches the provided id, or -1 if no match is found
