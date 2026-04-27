@@ -35,13 +35,18 @@ appRouter.post('/', async (req, res) => {
 });
 
 //updates all envelopes to have the same budget amount
-appRouter.put('/even', (req, res) => {
+app.put('/even', async (req, res) => {
     const { amount } = req.body || {};
     if (amount <= 0) {
         return res.status(400).send('Invalid amount');
     }
-    helper.evenBudget(amount);
-    res.send('All budgets updated successfully');
+    try{
+      await helper.evenBudget(amount);
+      res.send('All budgets updated successfully');
+    } catch (err){
+            console.log(err);
+            res.status(500).send('Database connection error');
+        }
 });
 
 //transfers budget from one envelope to another based on the provided from and to ids and amount in the request body
