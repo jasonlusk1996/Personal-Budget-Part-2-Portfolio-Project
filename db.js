@@ -1,6 +1,7 @@
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, 'db.env') });
 const {Pool}=require('pg');
+const resetDB=require('./resetDB');
 
 const pool = new Pool({
     user: process.env.DB_USER,
@@ -21,5 +22,11 @@ const dbConnect = async ()=>{
 };
 
 dbConnect();
+
+// Listen for termination signals (Ctrl+C, kill, etc.)
+process.on('SIGINT', async () => {
+    await resetDB(pool); // Pass the pool here
+    process.exit();
+});
 
 module.exports= pool;

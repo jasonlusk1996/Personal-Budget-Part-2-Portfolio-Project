@@ -9,7 +9,7 @@ appRouter = express.Router();
 app.use('/envelopes', appRouter);
 
 //gets all envelopes
-app.get('/envelopes', async (req, res) => {
+appRouter.get('/', async (req, res) => {
     try{
         const result = await pool.query("SELECT * FROM envelopes");
         res.status(200).json(result.rows);
