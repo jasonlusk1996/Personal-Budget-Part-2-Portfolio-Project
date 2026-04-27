@@ -42,7 +42,11 @@ function changeBudget(id, amount) {
 
 //updates all envelopes to have the same budget amount based on the provided amount
 async function evenBudget(amount) {
+    try{
     const result = await pool.query("UPDATE envelopes SET budget = $1", [amount]);
+    } catch (err){
+        console.log(err);
+    }
 }
 
 
