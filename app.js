@@ -119,20 +119,22 @@ appRouter.put('/:id', async (req, res) => {
 });
 
 //withdraws a specified amount from a specific envelope based on the provided id in the request parameters and amount in the request body
-appRouter.post('/:id/withdraw', (req, res) => {
+appRouter.post('/:id/withdraw', async (req, res) => {
     const id = parseInt(req.params.id);
     const { amount } = req.body || {};
-
-    if (!helper.getEnvelopeById(id)) {
+    try{
+    if (!(await helper.getEnvelopeById(id))) {
         return res.status(404).send('Envelope not found');
     }
-
     if (amount <= 0) {
         return res.status(400).send('Invalid amount');
     }
-
-    helper.updateBudget(id, amount);
+    await helper.updateBudget(id, amount);
     res.send('Withdrawal successful');
+} catch (err){
+        console.log(err);
+        res.status(500).send("Database connection error");
+    }
 });
 
 module.exports = app;
