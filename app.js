@@ -50,21 +50,24 @@ app.put('/even', async (req, res) => {
 });
 
 //transfers budget from one envelope to another based on the provided from and to ids and amount in the request body
-appRouter.post('/transfer/:from/:to', (req, res) => {
+appRouter.post('/transfer/:from/:to', async (req, res) => {
     const fromId= parseInt(req.params.from);
     const toId = parseInt(req.params.to);
     const { amount } = req.body || {};
+    try{
+      if (!(await helper.getEnvelopeById(fromId)) || !(await helper.getEnvelopeById(toId))) {
+          return res.status(404).send('One or both envelopes not found');
+      }
 
-    if (!helper.getEnvelopeById(fromId) || !helper.getEnvelopeById(toId)) {
-        return res.status(404).send('One or both envelopes not found');
+      if (amount <= 0) {
+          return res.status(400).send('Invalid amount');
+      }
+      await helper.swapBudget(fromId, toId, amount);
+      res.send('Transfer successful');
+    } catch (err){
+        console.log(err);
+        res.status(500).send('Database connection error');
     }
-
-    if (amount <= 0) {
-        return res.status(400).send('Invalid amount');
-    }
-
-    helper.swapBudget(fromId, toId, amount);
-    res.send('Transfer successful');
 });
 
 //gets a specific envelope by id from the envelopes array and returns it in the response
