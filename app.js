@@ -100,18 +100,22 @@ appRouter.delete('/:id', async (req, res) => {
 });
 
 //updates the budget of a specific envelope based on the provided id in the request parameters and amount in the request body
-appRouter.put('/:id', (req, res) => {
+appRouter.put('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
     const { amount } = req.body || {};
-    if (!helper.getEnvelopeById(id)) {
-        return res.status(404).send('Envelope not found');
+    try{
+      if (!(await helper.getEnvelopeById(id))) {
+          return res.status(404).send('Envelope not found');
+      }
+      if (amount <= 0) {
+          return res.status(400).send('Invalid amount');
+      }
+      await helper.changeBudget(id, amount);
+      res.send('Budget updated successfully');
+    } catch (err){
+        console.log(err);
+        res.status(500).send("Database connection error");
     }
-    if (amount <= 0) {
-        return res.status(400).send('Invalid amount');
-    }
-
-    helper.changeBudget(id, amount);
-    res.send('Budget updated successfully');
 });
 
 //withdraws a specified amount from a specific envelope based on the provided id in the request parameters and amount in the request body
