@@ -57,7 +57,6 @@ async function evenBudget(amount) {
 
 module.exports = {
     getEnvelopeById,
-    getIndexById,
     updateBudget,
     swapBudget,
     changeBudget,
