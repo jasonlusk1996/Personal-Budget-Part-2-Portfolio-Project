@@ -9,11 +9,6 @@ async function getEnvelopeById(id) {
     return rows[0]|| null;
 }
 
-//returns the index of an envelope in the envelopes array that matches the provided id, or -1 if no match is found
-function getIndexById(id) {
-    return envelopes.findIndex(envelope => envelope.id === id)|| -1;
-}
-
 //updates the budget of a specific envelope by subtracting the provided amount from the current budget
 async function updateBudget(id, amount) {
     try{
