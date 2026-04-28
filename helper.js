@@ -28,12 +28,8 @@ async function swapBudget(id1, id2, amount) {
     const res1 = await pool.query("SELECT budget FROM envelopes WHERE id=$1",[id1]);
     const res2 = await pool.query("SELECT budget FROM envelopes WHERE id=$1",[id2]);
     if (res1.rows.length > 0 && res2.rows.length > 0) {
-        let env1Budget = res1.rows[0].budget;
-        let env2Budget = res2.rows[0].budget;
-        env1Budget -= amount;
-        env2Budget += amount;
-        await pool.query("UPDATE envelopes SET budget=$1 WHERE id=$2",[env1Budget,id1]);
-        await pool.query("UPDATE envelopes SET budget=$1 WHERE id=$2",[env2Budget,id2]);}
+        await pool.query("UPDATE envelopes SET budget= budget - $1 WHERE id=$2",[amount,id1]);
+        await pool.query("UPDATE envelopes SET budget= budget + $1 WHERE id=$2",[amount,id2]);}
     } catch (err){
         console.log(err);
         await pool.query ('ROLLBACK');
