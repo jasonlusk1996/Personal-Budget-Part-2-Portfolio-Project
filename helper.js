@@ -23,12 +23,20 @@ function updateBudget(id, amount) {
 }
 
 //transfers a specified amount from one envelope to another based on the provided from and to ids and amount
-function swapBudget(id1, id2, amount) {
-    const envelope1 = getEnvelopeById(id1);
-    const envelope2 = getEnvelopeById(id2);
-    if (envelope1 && envelope2) {
-        envelope1.budget -= Number(amount);
-        envelope2.budget += Number(amount);
+async function swapBudget(id1, id2, amount) {
+    try{
+    const res1 = await pool.query("SELECT budget FROM envelope WHERE id=$1",[id1]);
+    const res2 = await pool.query("SELECT budget FROM envelope WHERE id=$1",[id2]);
+    if (res1.rows.length > 0 && res2.rows.length > 0) {
+        let env1Budget = res1.rows[0].budget;
+        let env2Budget = res2.rows[0].budget;
+        env1Budget -= amount;
+        env2Budget += amount;
+        await pool.query("UPDATE envelope SET budget=$1 WHERE id=$2",[env1Budget,id1]);
+        await pool.query("UPDATE envelope SET budget=$1 WHERE id=$2",[env2Budget,id2]);}
+    } catch (err){
+        console.log(err);
+        await pool.query ('ROLLBACK');
     }
 }
 
