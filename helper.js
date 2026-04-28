@@ -37,10 +37,13 @@ async function swapBudget(id1, id2, amount) {
 }
 
 //changes the budget of a specific envelope to the provided amount based on the provided id
-function changeBudget(id, amount) {
-    const envelope = getEnvelopeById(id);
-    if (envelope) {
-        envelope.budget = Number(amount);
+async function changeBudget(id, amount) {
+    try{
+    const res = await pool.query("SELECT budget FROM envelopes WHERE id=$1",[id]);
+    if (res.rows.length > 0) {
+        await pool.query("UPDATE envelopes SET budget= $1 WHERE id=$2",[amount,id]);}
+    } catch (err){
+        console.log(err);
     }
 }
 
