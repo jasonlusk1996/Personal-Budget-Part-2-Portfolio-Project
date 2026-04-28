@@ -15,10 +15,13 @@ function getIndexById(id) {
 }
 
 //updates the budget of a specific envelope by subtracting the provided amount from the current budget
-function updateBudget(id, amount) {
-    const envelope = getEnvelopeById(id);
-    if (envelope) {
-        envelope.budget -= amount;
+async function updateBudget(id, amount) {
+    try{
+    const res = await pool.query("SELECT budget FROM envelopes WHERE id=$1",[id1]);
+    if (res1.rows.length > 0) {
+        await pool.query("UPDATE envelopes SET budget= budget - $1 WHERE id=$2",[amount,id1]);}
+    } catch (err){
+        console.log(err);
     }
 }
 
