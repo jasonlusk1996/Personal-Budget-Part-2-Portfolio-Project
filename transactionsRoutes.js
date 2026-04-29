@@ -1,8 +1,10 @@
 const express = require('express');
-const app = express();
+const transactionRoutes = express();
 const pool = require("./db.js");
-app.use(express.json());
+transactionRoutes.use(express.json());
 
 //create a router for envelope-related routes and mount it on the /envelopes path
 appRouter = express.Router();
-app.use('/transactions', appRouter);
+transactionRoutes.use('/transactions', appRouter);
+
+module.exports = transactionRoutes;
