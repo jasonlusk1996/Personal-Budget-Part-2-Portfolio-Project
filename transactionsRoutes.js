@@ -29,4 +29,18 @@ transactionRoutes.get('/:id', async (req, res) => {
     }
 });
 
+//deletes an transaction from the transactions table based on the provided id in the request parameters
+transactionRoutes.delete('/:id', async (req, res) => {
+    const id = parseInt(req.params.id);
+    try{
+      const {rows}= await pool.query("DELETE FROM transactions WHERE id = $1 RETURNING *",[id]);
+      if (rows.length===0) {
+        return res.status(404).send('Transaction not found');}
+      res.status(204).send();}
+    catch(err){
+        console.log(err);
+        res.status(500).send("Database connection error");
+    }
+});
+
 module.exports = transactionRoutes;
