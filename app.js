@@ -55,7 +55,7 @@ appRouter.post('/transfer/:from/:to', async (req, res) => {
     const toId = parseInt(req.params.to);
     const { amount } = req.body || {};
     try{
-      if (!(await helper.getEnvelopeById(fromId)) || !(await helper.getEnvelopeById(toId))) {
+      if (!(await helper.getTableById("envelopes",fromId)) || !(await helper.getTableById("envelopes",toId))) {
           return res.status(404).send('One or both envelopes not found');
       }
 
@@ -104,7 +104,7 @@ appRouter.put('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
     const { amount } = req.body || {};
     try{
-      if (!(await helper.getEnvelopeById(id))) {
+      if (!(await helper.getTableById("envelopes",id))) {
           return res.status(404).send('Envelope not found');
       }
       if (amount <= 0) {
@@ -123,7 +123,7 @@ appRouter.post('/:id/withdraw', async (req, res) => {
     const id = parseInt(req.params.id);
     const { amount } = req.body || {};
     try{
-    if (!(await helper.getEnvelopeById(id))) {
+    if (!(await helper.gettableById("envelopes",id))) {
         return res.status(404).send('Envelope not found');
     }
     if (amount <= 0) {
