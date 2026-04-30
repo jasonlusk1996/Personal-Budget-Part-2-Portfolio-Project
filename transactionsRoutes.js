@@ -14,6 +14,21 @@ transactionRoutes.get('/', async (req, res) => {
         }
 });
 
+//adds new transaction to the transactions table
+transactionRoutes.post('/', async (req, res) => {
+    const { paydate, paymentamount, paymentrecipient,envelopeid} = req.body || {};
+    if(!paydate || !paymentamount|| !paymentrecipient|| !envelopeid) {
+        return res.status(400).send('pay date, payment amount, payment recipient, and envelope Id are required');
+    }
+    try{
+        const { rows } = await pool.query("INSERT INTO transactions (paydate, paymentamount, paymentrecipient, envelopeid) VALUES ($1, $2, $3, $4)",[paydate, paymentamount,paymentrecipient, envelopeid]);
+        res.status(201).send('Transaction created successfully');
+    }catch(err){
+            console.log(err);
+            res.status(500).send('Database connection error');
+        }
+});
+
 //gets a specific transaction by id from the PG DB and returns it in the response
 transactionRoutes.get('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
