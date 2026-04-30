@@ -4,8 +4,8 @@ app.use(express.json());
 const pool = require('./db.js');
 
 //returns an envelope object from the envelopes array that matches the provided id, or null if no match is found
-async function getEnvelopeById(id) {
-    const {rows} = await pool.query("SELECT * FROM envelopes WHERE id=$1",[id]);
+async function getTableById(table,id) {
+    const {rows} = await pool.query(`SELECT * FROM ${table} WHERE id=$1`,[id]);
     return rows[0]|| null;
 }
 
