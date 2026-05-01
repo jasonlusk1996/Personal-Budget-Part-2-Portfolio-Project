@@ -2,6 +2,7 @@ const express = require('express');
 const transactionRoutes = express();
 const pool = require("./db.js");
 transactionRoutes.use(express.json());
+const helper = require('./helper.js');
 
 //gets all transactions
 transactionRoutes.get('/', async (req, res) => {
@@ -53,6 +54,25 @@ transactionRoutes.delete('/:id', async (req, res) => {
         return res.status(404).send('Transaction not found');}
       res.status(204).send();}
     catch(err){
+        console.log(err);
+        res.status(500).send("Database connection error");
+    }
+});
+
+//Change which envelope a transaction belongs to based on the provided id in the request parameters and the new envelope id in the request body
+transactionRoutes.post('/:id/transfer', async (req, res) => {
+    const id = parseInt(req.params.id);
+    const { envelopeId } = req.body || {};
+    try{
+    if (!(await helper.getTableById("transactions",id))) {
+        return res.status(404).send('Transaction not found');
+    }
+    if (!(await helper.getTableById("envelopes",envelopeId))) {
+        return res.status(404).send('Envelope not found');
+    }
+    await pool.query("UPDATE transactions SET envelopeid=$1 WHERE id=$2",[envelopeId,id]);
+    res.send('Transfer successful');
+} catch (err){
         console.log(err);
         res.status(500).send("Database connection error");
     }

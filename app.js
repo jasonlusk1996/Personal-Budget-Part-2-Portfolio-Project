@@ -123,7 +123,7 @@ appRouter.post('/:id/withdraw', async (req, res) => {
     const id = parseInt(req.params.id);
     const { amount } = req.body || {};
     try{
-    if (!(await helper.gettableById("envelopes",id))) {
+    if (!(await helper.getTableById("envelopes",id))) {
         return res.status(404).send('Envelope not found');
     }
     if (amount <= 0) {
