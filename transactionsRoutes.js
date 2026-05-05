@@ -52,6 +52,21 @@ transactionRoutes.get('/min', async (req, res) => {
     }
 });
 
+//gets all transactions related to a certain envelope
+transactionRoutes.get('/envelope/:id', async (req, res) => {
+    const envelopeid = parseInt(req.params.id);
+    try{
+        const {rows} = await pool.query("SELECT * FROM transactions WHERE envelopeid = $1", [envelopeid]);
+        if(rows.length===0){
+            return res.status(404).send("Transaction not found");
+        }
+        res.status(200).json(rows);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Database connection error");
+    }
+});
+
 //gets a specific transaction by id from the PG DB and returns it in the response
 transactionRoutes.get('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
