@@ -30,6 +30,17 @@ transactionRoutes.post('/', async (req, res) => {
         }
 });
 
+//sorts all trasactionactions to show largest payment amount first
+transactionRoutes.get('/max', async (req, res) => {
+    try{
+        const {rows} = await pool.query("SELECT * FROM transactions ORDER BY paymentamount DESC");
+        res.status(200).json(rows);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Database connection error");
+    }
+});
+
 //sorts all trasactionactions to show smallest payment amount first
 transactionRoutes.get('/min', async (req, res) => {
     try{
