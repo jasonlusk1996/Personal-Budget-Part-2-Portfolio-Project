@@ -30,6 +30,17 @@ transactionRoutes.post('/', async (req, res) => {
         }
 });
 
+//sorts all trasactionactions to show smallest payment amount first
+transactionRoutes.get('/min', async (req, res) => {
+    try{
+        const {rows} = await pool.query("SELECT * FROM transactions ORDER BY paymentamount");
+        res.status(200).json(rows);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Database connection error");
+    }
+});
+
 //gets a specific transaction by id from the PG DB and returns it in the response
 transactionRoutes.get('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
