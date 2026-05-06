@@ -20,6 +20,8 @@ app.use('/envelopes', appRouter);
  *     responses:
  *       200:
  *         description: List of all envelopes
+ *       500:
+ *         description: Database error
  */
 appRouter.get('/', async (req, res) => {
     try{
