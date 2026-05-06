@@ -70,7 +70,30 @@ appRouter.post('/', async (req, res) => {
         }
 });
 
-//updates all envelopes to have the same budget amount
+/**
+ * @swagger
+ * /envelopes/even:
+ *   put:
+ *     summary: Updates all envelopes to have the same budget amount
+ *     tags: [Envelopes]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               amount:
+ *                 type: number
+ *                 example: 100
+ *     responses:
+ *       200:
+ *         description: All budgets updated successfully
+ *       400:
+ *         description: Invalid amount
+ *       500:
+ *         description: Database connection error
+ */
 app.put('/even', async (req, res) => {
     const { amount } = req.body || {};
     if (amount <= 0) {
