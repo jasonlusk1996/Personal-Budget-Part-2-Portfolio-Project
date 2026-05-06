@@ -231,7 +231,38 @@ appRouter.delete('/:id', async (req, res) => {
     }
 });
 
-//updates the budget of a specific envelope based on the provided id in the request parameters and amount in the request body
+/**
+ * @swagger
+ * /envelopes/{id}:
+ *   put:
+ *     summary: Updates the budget of a specific envelope based on the provided id in the request parameters and amount in the request body
+ *     tags: [Envelopes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The unique ID of the envelope
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               amount:
+ *                 type: number
+ *                 example: 50
+ *     responses:
+ *       200:
+ *         description: Budget updated successfully
+ *       400:
+ *         description: Invalid amount
+ *       404:
+ *         description: Envelope not found
+ *       500:
+ *         description: Database error
+ */
 appRouter.put('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
     const { amount } = req.body || {};
