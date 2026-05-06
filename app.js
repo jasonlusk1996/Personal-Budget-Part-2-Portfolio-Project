@@ -11,7 +11,17 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 appRouter = express.Router();
 app.use('/envelopes', appRouter);
 
-//gets all envelopes
+/**
+ * @swagger
+ * /envelopes:
+ *   get:
+ *     summary: Get all envelopes
+ *     tags: [Envelopes]
+ *     responses:
+ *       200:
+ *         description: List of all envelopes
+ */
+
 appRouter.get('/', async (req, res) => {
     try{
         const result = await pool.query("SELECT * FROM envelopes");
