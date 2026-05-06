@@ -31,7 +31,31 @@ appRouter.get('/', async (req, res) => {
         }
 });
 
-//adds new envelope to the envelopes array with a unique id, name, and budget
+/**
+ * @swagger
+ * /envelopes:
+ *   post:
+ *     summary: Create a new envelope
+ *     tags: [Envelopes]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Groceries
+ *               budget:
+ *                 type: number
+ *                 example: 500
+ *     responses:
+ *       201:
+ *         description: Envelope created successfully
+ *       400:
+ *         description: Name and budget are required
+ */
 appRouter.post('/', async (req, res) => {
     const { name, budget } = req.body || {};
     if(!name || !budget) {
