@@ -76,6 +76,27 @@ transactionRoutes.get('/envelope/:id', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /transactions/{id}:
+ *   get:
+ *     summary: Get a specific transaction by ID
+ *     tags: [Transactions]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The unique ID of the transaction
+ *     responses:
+ *       200:
+ *         description: Transaction details found
+ *       404:
+ *         description: Transaction not found
+ *       500:
+ *         description: Database error
+ */
 //gets a specific transaction by id from the PG DB and returns it in the response
 transactionRoutes.get('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
