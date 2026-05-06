@@ -82,7 +82,27 @@ appRouter.post('/transfer/:from/:to', async (req, res) => {
     }
 });
 
-//gets a specific envelope by id from the envelopes array and returns it in the response
+/**
+ * @swagger
+ * /envelopes/{id}:
+ *   get:
+ *     summary: Get a specific envelope by ID
+ *     tags: [Envelopes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The unique ID of the envelope
+ *     responses:
+ *       200:
+ *         description: Envelope details found
+ *       404:
+ *         description: Envelope not found
+ *       500:
+ *         description: Database error
+ */
 appRouter.get('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
     try{
