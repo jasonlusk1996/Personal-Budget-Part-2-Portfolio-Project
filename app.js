@@ -85,7 +85,40 @@ app.put('/even', async (req, res) => {
         }
 });
 
-//transfers budget from one envelope to another based on the provided from and to ids and amount in the request body
+/**
+ * @swagger
+ * /envelopes/transfer/{from}/{to}:
+ *   post:
+ *     summary: Transfer budget between envelopes
+ *     tags: [Envelopes]
+ *     parameters:
+ *       - in: path
+ *         name: from
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: path
+ *         name: to
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               amount:
+ *                 type: number
+ *                 example: 50
+ *     responses:
+ *       200:
+ *         description: Transfer successful
+ *       404:
+ *         description: One or both envelopes not found
+ *       500:
+ *         description: Database connection error
+ */
 appRouter.post('/transfer/:from/:to', async (req, res) => {
     const fromId= parseInt(req.params.from);
     const toId = parseInt(req.params.to);
