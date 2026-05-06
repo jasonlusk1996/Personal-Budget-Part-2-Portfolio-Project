@@ -55,6 +55,8 @@ appRouter.get('/', async (req, res) => {
  *         description: Envelope created successfully
  *       400:
  *         description: Name and budget are required
+ *       500:
+ *         description: Database error
  */
 appRouter.post('/', async (req, res) => {
     const { name, budget } = req.body || {};
