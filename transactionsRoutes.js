@@ -24,7 +24,39 @@ transactionRoutes.get('/', async (req, res) => {
         }
 });
 
-//adds new transaction to the transactions table
+/**
+ * @swagger
+ * /transactions:
+ *   post:
+ *     summary: Create a new transaction
+ *     tags: [Transactions]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               paydate:
+ *                 type: date
+ *                 example: 2026-01-01
+ *               paymentamount:
+ *                 type: number
+ *                 example: 500 
+ *               paymentrecipient:
+ *                 type: string
+ *                 example: Jim Fireworks
+ *               envelopeid:
+ *                 type: number
+ *                 example: 1
+ *     responses:
+ *       201:
+ *         description: Transaction created successfully
+ *       400:
+ *         description: pay date, payment amount, payment recipient, and envelope Id are required
+ *       500:
+ *         description: Database connection error
+ */
 transactionRoutes.post('/', async (req, res) => {
     const { paydate, paymentamount, paymentrecipient,envelopeid} = req.body || {};
     if(!paydate || !paymentamount|| !paymentrecipient|| !envelopeid) {
