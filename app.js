@@ -197,7 +197,27 @@ appRouter.get('/:id', async (req, res) => {
     }
 });
 
-//deletes an envelope from the envelopes array based on the provided id in the request parameters
+/**
+ * @swagger
+ * /envelopes/{id}:
+ *   delete:
+ *     summary: Deletes a specific envelope by ID
+ *     tags: [Envelopes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The unique ID of the envelope
+ *     responses:
+ *       204:
+ *         description: Envelope deleted found
+ *       404:
+ *         description: Envelope not found
+ *       500:
+ *         description: Database error
+ */
 appRouter.delete('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
     try{
