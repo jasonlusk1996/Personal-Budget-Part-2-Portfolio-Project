@@ -2,7 +2,10 @@ const express = require('express');
 const app = express();
 const pool = require("./db.js");
 const helper = require('./helper.js');
+const { swaggerUi, swaggerSpec } = require('./swagger.js');
 app.use(express.json());
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //create a router for envelope-related routes and mount it on the /envelopes path
 appRouter = express.Router();
