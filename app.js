@@ -21,7 +21,6 @@ app.use('/envelopes', appRouter);
  *       200:
  *         description: List of all envelopes
  */
-
 appRouter.get('/', async (req, res) => {
     try{
         const result = await pool.query("SELECT * FROM envelopes");

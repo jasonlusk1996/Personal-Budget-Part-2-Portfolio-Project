@@ -4,7 +4,16 @@ const pool = require("./db.js");
 transactionRoutes.use(express.json());
 const helper = require('./helper.js');
 
-//gets all transactions
+/**
+ * @swagger
+ * /transactions:
+ *   get:
+ *     summary: Get all transactions
+ *     tags: [Transactions]
+ *     responses:
+ *       200:
+ *         description: List of transactions
+ */
 transactionRoutes.get('/', async (req, res) => {
     try{
         const result = await pool.query("SELECT * FROM transactions");
