@@ -71,7 +71,18 @@ transactionRoutes.post('/', async (req, res) => {
         }
 });
 
-//sorts all trasactionactions to show largest payment amount first
+/**
+ * @swagger
+ * /transactions/max:
+ *   get:
+ *     summary: Sorts all transactions to show largest payment amount first
+ *     tags: [Transactions]
+ *     responses:
+ *       200:
+ *         description: List of all transactions sorted by largest first
+ *       500:
+ *         description: Database error
+ */
 transactionRoutes.get('/max', async (req, res) => {
     try{
         const {rows} = await pool.query("SELECT * FROM transactions ORDER BY paymentamount DESC");
