@@ -93,7 +93,18 @@ transactionRoutes.get('/max', async (req, res) => {
     }
 });
 
-//sorts all trasactionactions to show smallest payment amount first
+/**
+ * @swagger
+ * /transactions/min:
+ *   get:
+ *     summary: Sorts all transactions to show smallest payment amount first
+ *     tags: [Transactions]
+ *     responses:
+ *       200:
+ *         description: List of all transactions sorted by smallest first
+ *       500:
+ *         description: Database error
+ */
 transactionRoutes.get('/min', async (req, res) => {
     try{
         const {rows} = await pool.query("SELECT * FROM transactions ORDER BY paymentamount");
