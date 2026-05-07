@@ -115,7 +115,27 @@ transactionRoutes.get('/min', async (req, res) => {
     }
 });
 
-//gets all transactions related to a certain envelope
+/**
+ * @swagger
+ * /transactions/envelope/{id}:
+ *   get:
+ *     summary: Gets all transactions related to a certain envelope
+ *     tags: [Transactions]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The unique ID of the envelope
+ *     responses:
+ *       200:
+ *         description: Transactions found
+ *       404:
+ *         description: Transaction not found
+ *       500:
+ *         description: Database error
+ */
 transactionRoutes.get('/envelope/:id', async (req, res) => {
     const envelopeid = parseInt(req.params.id);
     try{
