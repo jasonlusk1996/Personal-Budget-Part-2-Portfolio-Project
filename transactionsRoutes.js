@@ -186,7 +186,27 @@ transactionRoutes.get('/:id', async (req, res) => {
     }
 });
 
-//deletes an transaction from the transactions table based on the provided id in the request parameters
+/**
+ * @swagger
+ * /transactions/{id}:
+ *   delete:
+ *     summary: Deletes a specific transaction by ID
+ *     tags: [Transactions]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The unique ID of the transaction
+ *     responses:
+ *       204:
+ *         description: Transaction deleted found
+ *       404:
+ *         description: Transaction not found
+ *       500:
+ *         description: Database error
+ */
 transactionRoutes.delete('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
     try{
