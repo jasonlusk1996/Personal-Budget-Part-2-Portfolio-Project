@@ -13,6 +13,8 @@ const helper = require('./helper.js');
  *     responses:
  *       200:
  *         description: List of transactions
+ *       500:
+ *         description: Database connection error
  */
 transactionRoutes.get('/', async (req, res) => {
     try{
