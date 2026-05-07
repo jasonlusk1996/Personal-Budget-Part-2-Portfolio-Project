@@ -220,7 +220,35 @@ transactionRoutes.delete('/:id', async (req, res) => {
     }
 });
 
-//Change which envelope a transaction belongs to based on the provided id in the request parameters and the new envelope id in the request body
+/**
+ * @swagger
+ * /transactions/{id}/transfer:
+ *   post:
+ *     summary: Change which envelope a transaction belongs to based on the provided id in the request parameters and the new envelope id in the request body
+ *     tags: [Transactions]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               envelopeId:
+ *                 type: number
+ *                 example: 2
+ *     responses:
+ *       200:
+ *         description: Transfer successful
+ *       404:
+ *         description: Transaction or envelope not found
+ *       500:
+ *         description: Database connection error
+ */
 transactionRoutes.post('/:id/transfer', async (req, res) => {
     const id = parseInt(req.params.id);
     const { envelopeId } = req.body || {};
