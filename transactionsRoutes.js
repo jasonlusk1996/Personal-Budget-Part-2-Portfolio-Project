@@ -173,7 +173,6 @@ transactionRoutes.get('/envelope/:id', async (req, res) => {
  *       500:
  *         description: Database error
  */
-//gets a specific transaction by id from the PG DB and returns it in the response
 transactionRoutes.get('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
     try{
